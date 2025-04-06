@@ -1,14 +1,63 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom'
+import { dummyProducts } from '../assets/assets';
+import toast from 'react-hot-toast';
  
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {  
+  
+  
+    const currency=import.meta.VITE_CURRENCY
     const navigate=useNavigate();
-    const [user,setUser]=useState(true)
+    const [user,setUser]=useState(null)
     const [isSeller,setIsSeller]=useState(false)
     const [showUserLogin,setShowUserLogin]=useState(false)
-    const value={navigate,user,setUser,isSeller,setIsSeller,showUserLogin,setShowUserLogin};
+    const [products,setProducts]=useState([])
+    const [cartItems,setCartItems]=useState({})
+
+  const fetchProducts=async()=>{
+    setProducts(dummyProducts);
+  }
+
+  useEffect(()=>{
+    fetchProducts()
+    },[]);
+
+//Add To Cart
+  const addToCart=(itemId)=>{
+    let cartData=structuredClone(cartItems);
+    if(cartData[itemId]){
+      cartData[itemId]+=1;
+    }else{
+      cartData[itemId]=1;
+    }
+    setCartItems(cartData);
+    toast.success('Added To Cart');
+  }
+
+  //Update cart item
+  const updateCartItem=(itemId,quantity)=>{
+    let cartData=structuredClone(cartItems);
+    cartData[itemId]=quantity;
+    setCartItems(cartData);
+    toast.success('Updated Cart');
+
+  }
+  //Remove Product from cart
+  const removeCartItem=(itemId)=>{
+     let cartData=structuredClone(cartItems);  
+    if(cartData[itemId]){
+      cartData[itemId]-=1;
+      if(cartData[itemId]===0){
+        delete cartData[itemId];
+      }
+    }
+    toast.success('Removed From Cart');
+    setCartItems(cartData);
+  }    
+      
+    const value={navigate,user,setUser,isSeller,setIsSeller,showUserLogin,setShowUserLogin,products,currency,addToCart,updateCartItem,removeCartItem,cartItems};
     return <AppContext.Provider value={value}>
         {children}
     </AppContext.Provider>
