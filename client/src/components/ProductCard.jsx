@@ -4,7 +4,7 @@ import { useAppContext } from '../context/AppContext';
 
 const ProductCard = ({products}) => {
    // const [count, setCount] = React.useState(0);
-    const {currency,addToCart,removeCartItem,cartItems,navigate}=useAppContext()
+    const {currency,addToCart,removeCartItem,cartItems}=useAppContext()
    
   
     return products && (

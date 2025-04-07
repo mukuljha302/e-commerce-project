@@ -3,6 +3,8 @@ import MainBannner from '../components/MainBannner'
 import Categories from '../components/Categories'
 import BestSeller from '../components/BestSeller'
 import ProductCard from '../components/ProductCard'
+import BottomBanner from '../components/BottomBanner'
+import Newsletter from '../components/Newsletter'
 
 const Home = () => {
   return (
@@ -10,7 +12,8 @@ const Home = () => {
       <MainBannner/>
       <Categories/>
       <BestSeller/>
- 
+      <BottomBanner/>
+      <Newsletter/>
     </div>
   )
 }
